@@ -160,27 +160,44 @@ if (isset($_POST['submit']) && $_POST['submit'] == 'Save') {
 
 
 if (isset($_POST['submit']) && $_POST['submit'] == 'Duplicate') {
+    // get link from previous entry
+    $link = $_POST['link'];
+    // set timezone
     $ini = parse_ini_file('jot.ini');
     date_default_timezone_set($ini['blog_timezone']);
-    $new_timestamp = date($ini['link_timestamp']);
-    if (!is_dir($new_timestamp)) mkdir($new_timestamp, 0755, true);
-    $file = fopen($new_timestamp.'/index.md', 'w');
-    $post = file_get_contents($_POST['link'].'index.md');
-    fwrite($file, $post);
-    fclose($file); 
+    // make new link from default timestamp form
+    $new_link = date($ini['link_timestamp']);
+    $new_link = $new_link.'/';
+    // make new directory from new link
+    // UNCOMMENT NEXT LINE FOR PRODUCTION
+    if (!is_dir($new_link)) mkdir($new_link, 0755, true);
+    // copy files unchanged from old directory to the new
+    // find all files in old directory
+    $files = glob($link.'*');
+    foreach ($files as $file) {
+        $tmp = explode('/', $file);
+        $filename = array_pop($tmp);
+        copy($file, $new_link.$filename);
+    }
+    // find .md documents in old directory
+    $files = glob($link.'*.md');
+    // for each .md file found, copy the contents of the post while replacing old with new link
+    foreach ($files as $file) {
+        // get filename
+        $filename = explode('/', $file);
+        $filename = array_pop($filename);
+        // rewrite contents of post to new post
+        // first, get the old contents
+        $post = file_get_contents($link.$filename);
+        // replace old link with new link
+        $new_post = str_replace($link, $new_link, $post);
+        // write the new contents to the new file
+        $file = fopen($new_link.$filename, 'w');
+        fwrite($file, $new_post);
+        //close the file
+        fclose($file);
+    }
 }
-
-
-
-
-
-// if (isset($_POST['submit']) && $_POST['submit'] == 'Delete') {
-    // $files = glob($_POST['link'].'*');
-    // foreach ($files as $file) {
-        // unlink($file);
-    // }
-    // rmdir($_POST['link']);
-// }
 
 
 
@@ -209,21 +226,52 @@ if (isset($_POST['submit']) && $_POST['submit'] == 'Delete') {
 
 
 if (isset($_POST['submit']) && $_POST['submit'] == 'Restamp') {
+    // get link from previous entry
+    $link = $_POST['link'];
+    // parse ini file and set timezone based on preference
     $ini = parse_ini_file('jot.ini');
     date_default_timezone_set($ini['blog_timezone']);
-    $new_timestamp = date($ini['link_timestamp']);
-    if (!is_dir($new_timestamp)) mkdir($new_timestamp, 0755, true);
+    // make new link from default timestamp form
+    $new_link = date($ini['link_timestamp']);
+    $new_link = $new_link.'/';
+    // make new directory from new link
+    if (!is_dir($new_link)) mkdir($new_link, 0755, true);
 
-    $link = $_POST['link'];
+    // find all files in old directory
     $files = glob($link.'*');
+    // copy files unchanged from old directory to the new
     foreach ($files as $file) {
         $tmp = explode('/', $file);
         $filename = array_pop($tmp);
-        print($new_timestamp.'/'.$filename);
-        copy($file, $new_timestamp.'/'.$filename);
+        copy($file, $new_link.$filename);
     }
 
+    // find .md documents in old directory
+    $files = glob($link.'*.md');
+    // for each .md file found, copy the contents of the post while replacing old with new link
+    foreach ($files as $file) {
+        // get filename
+        $filename = explode('/', $file);
+        $filename = array_pop($filename);
+        // rewrite contents of post to new post
+        // first, get the old contents
+        $post = file_get_contents($link.$filename);
+        // replace old link with new link
+        $new_post = str_replace($link, $new_link, $post);
+        // write the new contents to the new file
+        $file = fopen($new_link.$filename, 'w');
+        fwrite($file, $new_post);
+        //close the file
+        fclose($file);
+    }
+
+    
+    // once again, find all files in old directory
+    $files = glob($link.'*');
+    // delete each file
     foreach ($files as $file) { unlink($file); }
+
+    // recursively delete old directory and all empty parent directories
     $links = explode('/', $link);
     array_pop($links);
     $link = implode('/', $links);
