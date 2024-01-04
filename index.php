@@ -99,6 +99,8 @@ function adjust_the_($archive, $new_directory) {
     $old_directory = remove_tail('\\', $archive);
     $old_directory = $old_directory.'\\';
     $new_directory = str_replace('/', '\\', $new_directory);
+    $new_directory = remove_tail('\\', $new_directory);
+    $new_directory = $new_directory.'\\';
     if (!is_dir($new_directory)) mkdir($new_directory, 0755, true);
     $files = glob($old_directory.'*');
     foreach ($files as $file) {
