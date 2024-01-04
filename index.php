@@ -1,5 +1,5 @@
 <?php
-$this_page = './manage.php';
+$this_page = './index.php';
 
 include('Parsedown.php');
 $ini = parse_ini_file('jot.ini');
