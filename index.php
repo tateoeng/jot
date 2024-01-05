@@ -1,5 +1,5 @@
 <?php
-$this_page = './index.php';
+$this_page = './manage.php';
 
 include('Parsedown.php');
 $ini = parse_ini_file('jot.ini');
@@ -32,9 +32,6 @@ function get_inline_timestamp($ts) {
 
 
 
-function br() {
-    print('<br />');
-}
 
 function remove_tail($delimiter, $string) {
     $string = explode($delimiter, $string);
@@ -43,12 +40,20 @@ function remove_tail($delimiter, $string) {
     return $string;
 }
 
+
+
+
+
 function remove_head($delimiter, $string) {
     $string = explode($delimiter, $string);
     array_shift($string);
     $string = implode($delimiter, $string);
     return $string;
 }
+
+
+
+
 
 function delete_the_($archive) {
     $archive = remove_tail('\\', $archive);
@@ -95,6 +100,8 @@ function duplicate_the_($archive) {
 
 
 
+
+
 function adjust_the_($archive, $new_directory) {
     $old_directory = remove_tail('\\', $archive);
     $old_directory = $old_directory.'\\';
@@ -122,6 +129,8 @@ function adjust_the_($archive, $new_directory) {
 
 
 
+
+
 date_default_timezone_set($blog_timezone);
 
 if (!is_dir('blogs')) mkdir('blogs', 0755, true);
@@ -131,7 +140,53 @@ if (!is_dir('pages')) mkdir('pages', 0755, true);
 
 
 
-if (isset($_POST['submit']) && $_POST['submit'] == 'new_post') {
+if (isset($_GET['submit'])) {
+    $archive = $_GET['submit'];
+    $body = file_get_contents($archive);
+    $Parsedown = new Parsedown();
+    include('head.php');
+print('<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"> 
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <title>'.$blog_name.': '.$blog_tagline.'</title></head>
+
+<body>
+    <div id="masthead">
+    <h1><a href="'.$this_page.'">'.$blog_name.'</a></h1>
+    <h6>'.$blog_tagline.'</h6>
+    <form action="'.$this_page.'" method="post" enctype="multipart/form-data">
+        <button type="submit" class="new_post" name="submit" value="new_post">New post...</button>
+        <button type="submit" id="preferences" name="submit" value="preferences">Preferences...</button>
+        <button type="submit" id="stylesheet" name="submit" value="stylesheet">Edit stylesheet...</button>
+        <br /><br />
+        <button type="submit" id="archives" name="submit" value="archives">Archives</button></form></div>');
+        
+    
+    $archive_date = get_inline_timestamp($archive);
+    
+    print('<div id="feature">
+    <h6>'.$archive.'</h6>
+    <h4>'.$archive_date.'</h4>
+        <form action="'.$this_page.'" method="post" enctype="multipart/form-data">
+            <button type="submit" id="delete" name="submit" value="delete">Delete</button>
+            <button type="submit" id="duplicate" name="submit" value="duplicate">Duplicate</button>
+            <button type="submit" id="restamp" name="submit" value="restamp">Restamp</button>
+            <input type="text" id="new_timestamp" name="new_timestamp" value="'.$archive.'" />
+            <button type="submit" id="adjust" name="submit" value="adjust">Adjust</button>
+            <br />
+            <button type="submit" id="view" name="submit" value="view">View</button>
+            <button type="submit" id="edit" name="submit" value="edit">Edit</button>
+            <input type="file" class="file_to_upload" name="file_to_upload" />
+            <input type="submit" class="upload" name="submit" value="Upload" />
+            <input type="hidden" id="body" name="body" value="'.$body.'" />
+            <input type="hidden" id="archive" name="archive" value="'.$archive.'" /></form>');
+    print('    '.$Parsedown->text($body).'</div>');
+    include('foot.php');
+}
+
+
+else if (isset($_POST['submit']) && $_POST['submit'] == 'new_post') {
     
 print('<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"> 
 <html>
@@ -196,6 +251,51 @@ print('<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/h
             <textarea id="preferences" name="preferences">'.$ini.'</textarea>
             <button type="submit" id="set_up" name="submit" value="set_up">Update</button></form></div></body></html>'); }
 
+
+
+
+
+else if (isset($_POST['submit']) && $_POST['submit'] == 'archives') {
+$rii = new RecursiveIteratorIterator(new RecursiveDirectoryIterator('blogs'));
+$archives = array(); 
+
+/** @var SplFileInfo $file */
+foreach ($rii as $archive) {
+    if (!$archive->isDir() && str_ends_with($archive, '.md')) $archives[] = $archive->getPathname();        
+}
+
+print('<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"> 
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <title>'.$blog_name.': '.$blog_tagline.'</title></head>
+
+<body>
+    <div id="masthead">
+    <h1><a href="'.$this_page.'">'.$blog_name.'</a></h1>
+    <h6>'.$blog_tagline.'</h6>
+    <form action="'.$this_page.'" method="post" enctype="multipart/form-data">
+        <button type="submit" class="new_post" name="submit" value="new_post">New post...</button>
+        <button type="submit" id="preferences" name="submit" value="preferences">Preferences...</button>
+        <button type="submit" id="stylesheet" name="submit" value="stylesheet">Edit stylesheet...</button>
+        <br /><br />
+        <button type="submit" id="archives" name="submit" value="archives">Archives</button></form></div>
+
+    <div id="feature">
+        <h2>Archives</h2>
+        <form action="./manage.php" method="get">');
+
+foreach ($archives as $archive) {
+    $file = fopen($archive, 'r');
+    print('
+            <button type="submit" id="view" name="submit" value="'.$archive.'">'.get_inline_timestamp($archive).': '.fgets($file).'</button>');
+    fclose($file);
+}
+
+print('</form>');
+print('</div>');
+
+include('foot.php'); }
 
 
 
@@ -415,8 +515,9 @@ print('<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/h
     <form action="'.$this_page.'" method="post" enctype="multipart/form-data">
         <button type="submit" class="new_post" name="submit" value="new_post">New post...</button>
         <button type="submit" id="preferences" name="submit" value="preferences">Preferences...</button>
-        <button type="submit" id="stylesheet" name="submit" value="stylesheet">Edit stylesheet...</button></form>
-        <a href="./archives.php">Archives</a></div>');
+        <button type="submit" id="stylesheet" name="submit" value="stylesheet">Edit stylesheet...</button>
+        <br /><br />
+        <button type="submit" id="archives" name="submit" value="archives">Archives</button></form></div>');
 
 foreach ($archives as $archive) {
     $body = file_get_contents($archive);
@@ -425,7 +526,7 @@ foreach ($archives as $archive) {
     
     print('    <div class="post">
         <h4>'.$archive_date.'</h4>
-            <form action="'.$this_page.'" method="post" enctype="multipart/form-data">
+        <form action="'.$this_page.'" method="post" enctype="multipart/form-data">
             <button type="submit" id="delete" name="submit" value="delete">Delete</button>
             <button type="submit" id="duplicate" name="submit" value="duplicate">Duplicate</button>
             <button type="submit" id="restamp" name="submit" value="restamp">Restamp</button>
