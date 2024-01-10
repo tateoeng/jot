@@ -1,270 +1,95 @@
 body {
-    background-color: #000;
-    color: #fff;
-    font-size: 30px;
+background-color: black;
+color: white;
+font-family: Verdana, sans-serif;
 }
 
-code {
-    font-size: 25px;
-    background-color: #444;
+body, h1, h2, h3, h4, h5, h6 {
+margin: 0px;
 }
 
-hr {
-    margin-bottom: 10px;
+div {
+background-color: #181818;
 }
 
-#feature {
-    border-radius: 10px;
-    border: 5px solid cyan;
-    background: #333;
-    margin: 10px;
-    padding: 30px;
-    padding-right: 70px;
+div#masthead, form, h1, h2, h3, h4, h5, h6 {
+text-align: center;
 }
 
-form {
-    border: none;
-    text-align: center;
-    margin-bottom: 15px;
-}
-
-textarea {
-    width:100%;
-    height: 200px;
-    padding: 20px;
-}
-
-button {
-    background-color: cyan; /* Green */
-    border: 1px solid #008B8B;
-    color: black;
-    padding: 10px 16px;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 14px;
-    border-radius: 5px;
-}
-
-#masthead {
-    border-radius: 10px;
-    border: 2px solid #888;
-    background: #222;
-    text-align: center;
-    padding: 15px;
-    margin: 10px;
-}
-
-.blog_name h1 {
-    font-size: 72px;
-    text-align: center;
-    padding: 0px;
-    margin: 0px;
-}
-
-a:link {
-    color: cyan;
-    text-shadow: 1px 1px #008B8B;
-    text-decoration: none;
-}
-
-a:visited {
-    color: cyan;
-    text-shadow: 1px 1px #008B8B;
-    text-decoration: none;
-}
-
-a:hover {
-    color: pink;
-    text-shadow: 2px 2px magenta;
-    text-decoration: none;
-}
-
-a:active {
-    color: cyan;
-    text-shadow: 2px 2px #008B8B;
-    text-decoration: none;
-}
-
-h1 {
-    font-size: 60px;
-    text-align: center;
-    margin: 0px;
-}
-
-h2 {
-    font-size: 50px;
-    text-align: center;
-    margin: 0px;
-}
-
-h3 {
-    font-size: 40px;
-    text-align: center;
-    margin: 0px;
-}
-
-h4 {
-    font-size: 30px;
-    text-align: center;
-    margin: 0px;
-    font-weight: normal;
-}
-
-h5 {
-    font-size: 24px;
-    text-align: center;
-    margin: 0px;
-    font-weight: normal;
-}
-
-h6 {
-    font-size: 18px;
-    margin: 0px;
-    margin-bottom: 10px;
-    text-align: center;
-    font-weight: normal;
-}
-
-div.post {
-    border: 2px solid #888;
-    border-radius: 10px;
-    background: #222;
-    padding: 15px;
-    padding-bottom: 40px;
-    margin: 0px 10px 10px 10px;
-}
-
-.post form {
-    margin: 0px;
-    margin-bottom: 15px;
-    background: #222;
-}
-
-.timestamp {
-    font-size: 30px;
-    text-align: center;
-    margin-bottom: 10px;
+a {
+text-decoration: none;
+color: cyan;
 }
 
 img {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    border-radius: 10px;
-    border: 2px solid #888;
-    width: 62%;
-    height: auto;
+display: block;
+width: 100%;
+margin-left: auto;
+margin-right: auto;
 }
 
-input {
-    background-color: cyan; /* Green */
-    border: 1px solid #008B8B;
-    color: black;
-    padding: 10px 16px;
-    margin-top: 10px;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 18px;
-    border-radius: 5px;
+form, h1, h2, h3, h4, h5, h6 {
+margin-bottom: 10px;
 }
 
-input#new_timestamp {
-    background-color: white; /* Green */
-    border: 1px solid #008B8B;
-    color: black;
-    padding: 10px 16px;
-    margin-top: 10px;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 14px;
-    border-radius: 5px;
+div {
+border: 2px solid cyan;
+border-radius: 10px;
+margin: 10px;
+padding: 5px;
 }
 
-input.file_to_upload {
-    background-color: cyan; /* Green */
-    border: 1px solid #008B8B;
-    color: black;
-    padding: 7px 13px;
-    margin-top: 5px;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 14px;
-    border-radius: 5px;
+textarea {
+width: 95%;
+height: 200px;
+padding: 20px;
 }
 
-input.upload {
-    background-color: cyan; /* Green */
-    border: 1px solid #008B8B;
-    color: black;
-    padding: 10px 16px;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 14px;
-    border-radius: 5px;
+button, input.file_to_upload, input.upload {
+color: black;
+background-color: cyan;
+margin-bottom: 4px;
+border: 0px;
+border-radius: 5px;
 }
 
-div.archives {
-    border-radius: 10px;
-    border: 2px solid #888;
-    background: #222;
-    text-align: center;
-    padding: 15px;
-    margin: 10px;
+button, input.upload {
+padding: 3px 10px;
 }
 
-.archives form {
-   margin: 0px;
+li, p {
+width: 62%;
+margin-left: auto;
+margin-right: auto;
+text-align: justify;
 }
 
-table, th, td {
-    border: 1px solid #444;
-    color: white;
-    font-size: 24px;
+li li, li li li, li li li li {
+width: 100%;
 }
 
 table {
-    margin-left: auto;
-    margin-right: auto;
+width: 62%;
+margin-left: auto;
+margin-right: auto;
+}
+
+table, th, td {
+border: 1px solid #222;
 }
 
 blockquote {
-	margin: 1em 3em;
-	color: #999;
-	border-left: 2px solid #999;
-	padding-left: 1em; }
-
-.archives {
-    border-radius: 10px;
-    border: 2px solid #888;
-    background: #888;
-    text-align: center;
-    padding: 15px;
-    margin: 10px;
+color: #aaa;
 }
 
-.archives form {
-    border: none;
-    padding: 0px;
-    margin: 0px;
-    display: inline-block;
+.post {
+font-size: 0px;
 }
 
-#problem_p {
-    text-align: center;
+.post p {
+font-size: 16px;
 }
 
-p {
-    width: 62%;
-    margin: auto;
-    text-align: justify;
-}
-
-p input {
-    width = 100%;
-}
-
-ul {
-    width: 58%;
-    margin: auto;
-    margin-bottom: 20px;
+.post h4 {
+font-size: 20px;
 }
