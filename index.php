@@ -454,10 +454,7 @@ print('<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/h
 <br />
 <button type="submit" id="save" name="submit" value="save">Save</button>
 <input type="hidden" id="archive" name="archive" value="'.$_POST['archive'].'" />
-</form></div>
-');
-
-print('</body></html>');
+</form></div></body></html>');
 }
 
 
@@ -540,7 +537,7 @@ foreach ($archives as $archive) {
             <input type="hidden" id="body" name="body" value="'.$body.'" />
             <input type="hidden" id="archive" name="archive" value="'.$archive.'" /></form>
             
-'.$Parsedown->text($body).'</div>
-
-</body></html>'); } }
+'.$Parsedown->text($body).'</div>'); }
+print('<a href="#" class="top">^</a>
+</body></html>'); }
 ?>
