@@ -4,21 +4,44 @@ color: white;
 font-family: Verdana, sans-serif;
 }
 
-body, h1, h2, h3, h4, h5, h6 {
-margin: 0px;
-}
-
 div {
 background-color: #181818;
+padding: 5px 5px 15px 5px;
 }
 
 div#masthead, form, h1, h2, h3, h4, h5, h6 {
 text-align: center;
 }
 
+div#masthead {
+padding: 20px 0px;
+}
+
+div#masthead h1 {
+padding-top: 20px;
+}
+
+div#masthead h5 {
+padding-bottom: 20px;
+}
+
 a {
 text-decoration: none;
 color: #1ecbe1;
+transition-duration: 0.4s;
+}
+
+a:hover {
+text-decoration: none;
+background-color: #1ecbe1;
+color: #000000;
+transition-duration: 0.0s;
+}
+
+a:active {
+text-decoration: none;
+color: #1ecbe1;
+transition-duration: 0.4s;
 }
 
 img {
@@ -28,8 +51,8 @@ margin-left: auto;
 margin-right: auto;
 }
 
-form, h1, h2, h3, h4, h5, h6 {
-margin-bottom: 10px;
+h1, h2, h3, h4, h5, h6 {
+margin: 0px;
 }
 
 div {
@@ -39,22 +62,61 @@ margin: 10px;
 padding: 5px;
 }
 
+div#feature {
+padding: 20px;
+}
+
 textarea {
 width: 95%;
 height: 200px;
 padding: 20px;
 }
 
-button, input.file_to_upload, input.upload {
+button {
 color: black;
 background-color: #1ecbe1;
-margin-bottom: 4px;
 border: 0px;
+border-radius: 5px;
+margin: 0px 2px 0px 2px;
+padding: 3px 10px;
+transition-duration: 0.4s;
+}
+
+button:hover {
+border 1px solid #1ecbe1;
+background-color: #000;
+color: #1ecbe1;
+transition-duration: 0.0s;
+}
+
+button:active {
+color: black;
+background-color: #1ecbe1;
+}
+
+input.file_to_upload {
+border-radius: 5px;
+margin: 2px;
+color: black;
+background-color: #1ecbe1;
+}
+
+input.upload {
+border-radius: 5px;
+margin: 2px;
+padding: 3px 10px;
+border: 1px solid #000;
+}
+
+input#file-upload-button {
 border-radius: 5px;
 }
 
-button, input.upload {
-padding: 3px 10px;
+input#new_timestamp {
+margin: 0px 2px 4px 2px;
+border: 1px solid #1ecbe1;
+border-radius: 5px;
+padding: 2px 5px;
 }
 
 table {
@@ -81,28 +143,34 @@ padding-bottom: 30px;
 font-size: 16px;
 }
 
-.post h1 {
+.post h1, #feature h1 {
 font-size: 48px;
+margin-bottom: 48px;
 }
 
-.post h2 {
+.post h2, #feature h2 {
 font-size: 36px;
+margin-bottom: 36px;
 }
 
-.post h3 {
+.post h3, #feature h3 {
 font-size: 28px;
+margin-bottom: 28px;
 }
 
-.post h4 {
+.post h4, #feature h4 {
 font-size: 20px;
+margin-bottom: 20px;
 }
 
-.post h5 {
+.post h5, #feature h5 {
 font-size: 16px;
+margin-bottom: 16px;
 }
 
-.post h6 {
+.post h6, #feature h6 {
 font-size: 12px;
+margin-bottom: 12px;
 }
 
 .top {
@@ -134,10 +202,21 @@ margin-right: auto;
 text-align: justify;
 }
 
+.post li p {
+width: 100%;
+margin-left: auto;
+margin-right: auto;
+text-align: justify;
+}
+
 li li, li li li, li li li li {
 width: 100%;
 }
 
 ul, ol, table {
 margin-bottom: 30px;
+}
+
+#archives button {
+margin-bottom: 10px;
 }
