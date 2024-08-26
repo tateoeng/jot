@@ -4,6 +4,7 @@ color: white;
 font-family: Verdana, sans-serif;
 }
 
+
 div {
 background-color: #181818;
 padding: 5px 5px 15px 5px;
@@ -72,7 +73,7 @@ height: 200px;
 padding: 20px;
 }
 
-button {
+button, p button {
 color: black;
 background-color: #1ecbe1;
 border: 0px;
@@ -108,11 +109,11 @@ padding: 3px 10px;
 border: 1px solid #000;
 }
 
-input#file-upload-button {
+input.file-upload-button {
 border-radius: 5px;
 }
 
-input#new_timestamp {
+input.new_timestamp {
 margin: 0px 2px 4px 2px;
 border: 1px solid #1ecbe1;
 border-radius: 5px;
@@ -146,34 +147,46 @@ font-size: 16px;
 .post h1, #feature h1 {
 font-size: 48px;
 margin-bottom: 48px;
+margin-right: 5%;
+margin-left: 5%;
 }
 
 .post h2, #feature h2 {
 font-size: 36px;
 margin-bottom: 36px;
+margin-right: 5%;
+margin-left: 5%;
 }
 
 .post h3, #feature h3 {
 font-size: 28px;
 margin-bottom: 28px;
+margin-right: 5%;
+margin-left: 5%;
 }
 
 .post h4, #feature h4 {
 font-size: 20px;
 margin-bottom: 20px;
+margin-right: 5%;
+margin-left: 5%;
 }
 
 .post h5, #feature h5 {
 font-size: 16px;
 margin-bottom: 16px;
+margin-right: 5%;
+margin-left: 5%;
 }
 
 .post h6, #feature h6 {
 font-size: 12px;
 margin-bottom: 12px;
+margin-right: 5%;
+margin-left: 5%;
 }
 
-.top {
+#top {
 --offset: 50px;
 
 position: sticky;
@@ -219,4 +232,37 @@ margin-bottom: 30px;
 
 #archives button {
 margin-bottom: 10px;
+}
+
+#footer {
+}
+
+form p {
+text-align: center;
+margin: auto;
+}
+
+button.view {
+margin: 6px 3px;
+}
+
+#feature button.view h1, #feature button.view h2 {
+font-size: 24px;
+margin: 0px;
+padding: 0px;
+}
+
+#feature button.view h1 a, #feature button.view h2 a {
+color: #E1341E;
+}
+
+input iframe {
+visibility: hidden;
+}
+
+hr {
+width: 31%;
+color: #333;
+margin-top: 30px;
+margin-bottom: 30px;
 }

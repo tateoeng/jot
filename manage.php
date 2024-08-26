@@ -1,34 +1,7 @@
 <?php
 $this_page = './manage.php';
 
-include('Parsedown.php');
-$ini = parse_ini_file('jot.ini');
-$blog_name = $ini['blog_name'];
-$blog_tagline = $ini['blog_tagline'];
-$blog_timezone = $ini['blog_timezone'];
-$link_timestamp = $ini['link_timestamp'];
-$blog_nposts = $ini['blog_nposts'];
-$latest_first = $ini['latest_first'];
-
-function get_inline_timestamp($ts) {
-    $ts = explode('\\', $ts);
-    array_shift($ts);
-    array_pop($ts);
-    
-    $count = count($ts);
-    if ($count == 1) {
-        return date('Y', mktime(0, 0, 0, 0, 0, $ts[0] + 1));
-    } elseif ($count == 2) {
-        return date('F Y', mktime(0, 0, 0, $ts[1] + 1, 0, $ts[0]));
-    } elseif ($count == 3) {
-        return date('F j, Y', mktime(0, 0, 0, $ts[1], $ts[2], $ts[0]));
-    } elseif ($count == 4) {
-        return date('F j, Y, H\o\'\c\l\o\c\k', mktime($ts[3], 0, 0, $ts[1], $ts[2], $ts[0]));
-    } elseif ($count == 5) {
-        return date('F j, Y, H:i', mktime($ts[3], $ts[4], 0, $ts[1], $ts[2], $ts[0]));
-    } elseif ($count == 6) {
-        return date('F j, Y, H:i:s', mktime($ts[3], $ts[4], $ts[5], $ts[1], $ts[2], $ts[0])); } }
-
+include('initialize.php');
 
 
 
@@ -140,63 +113,18 @@ if (!is_dir('pages')) mkdir('pages', 0755, true);
 
 
 
-if (isset($_GET['submit'])) {
-    $archive = $_GET['submit'];
-    $body = file_get_contents($archive);
-    $Parsedown = new Parsedown();
+if (isset($_POST['submit']) && $_POST['submit'] == 'new_post') {
     include('head.php');
-print('<body>
+    print('<body>
     <div id="masthead">');
-include('masthead.php');
-print('    <form action="'.$this_page.'" method="post" enctype="multipart/form-data">
-        <button type="submit" class="new_post" name="submit" value="new_post">New post...</button>
-        <button type="submit" id="preferences" name="submit" value="preferences">Preferences...</button>
-        <button type="submit" id="stylesheet" name="submit" value="stylesheet">Edit stylesheet...</button>
-        <br />
-        <button type="submit" id="home" name="submit" value="home">Home</button>
-        <button type="submit" id="archives" name="submit" value="archives">Archives</button>
-        <button type="submit" id="manage" name="submit" value="manage">Manage</button></form></div>');
-        
-    
-    $archive_date = get_inline_timestamp($archive);
-    
-    print('<div id="feature">
-    <h6>'.$archive.'</h6>
-    <h4>'.$archive_date.'</h4>
-        <form action="'.$this_page.'" method="post" enctype="multipart/form-data">
-            <button type="submit" id="delete" name="submit" value="delete">Delete</button>
-            <button type="submit" id="duplicate" name="submit" value="duplicate">Duplicate</button>
-            <button type="submit" id="restamp" name="submit" value="restamp">Restamp</button>
-            <input type="text" id="new_timestamp" name="new_timestamp" value="'.$archive.'" />
-            <button type="submit" id="adjust" name="submit" value="adjust">Adjust</button>
-            <br />
-            <button type="submit" id="view" name="submit" value="view">View</button>
-            <button type="submit" id="edit" name="submit" value="edit">Edit</button>
-            <input type="file" class="file_to_upload" name="file_to_upload" />
-            <input type="submit" class="upload" name="submit" value="Upload" />
-            <input type="hidden" id="body" name="body" value="'.$body.'" />
-            <input type="hidden" id="archive" name="archive" value="'.$archive.'" /></form>');
-    print('    '.$Parsedown->text($body).'</div>');
-    include('foot.php');
-}
-
-
-else if (isset($_POST['submit']) && $_POST['submit'] == 'new_post') {
-    
-include('head.php');
-print('<body>
-    <div id="masthead">');
-include('masthead.php');    
-print('
-    <form action="'.$this_page.'" method="post" enctype="multipart/form-data">
-        <button type="submit" class="new_post" name="submit" value="new_post">New post...</button>
-        <button type="submit" id="preferences" name="submit" value="preferences">Preferences...</button>
-        <button type="submit" id="stylesheet" name="submit" value="stylesheet">Edit stylesheet...</button></form></div>
-        
-    <div id="feature"><form action="'.$this_page.'" method="post">
-        <label for="New post">New post</label>
-        <textarea name="body"></textarea>
-        <button type="submit" id="publish" name="submit" value="publish">Publish</button></form></div></body></html>'); }
+    include('masthead.php');    
+    include('manage_menu.php');
+    print('</div>
+            
+        <div id="feature"><form action="'.$this_page.'" method="post">
+            <label for="New post">New post</label>
+            <textarea name="body"></textarea>
+            <button type="submit" id="publish" name="submit" value="publish">Publish</button></form></div></body></html>'); }
 
 
 
@@ -221,25 +149,28 @@ else if (isset($_POST['submit']) && $_POST['submit'] == 'publish') {
 else if (isset($_POST['submit']) && $_POST['submit'] == 'preferences') {
     $ini = file_get_contents('jot.ini');
     
-include('head.php');
-print('<body>
-    <div id="masthead">');
-include('masthead.php');
-include('manage_menu.php');    
-print('    </div>
+    include('head.php');
+    print('<body>
+        <div id="masthead">');
+    include('masthead.php');
+    include('manage_menu.php');    
+    print('    </div>
 
-    <div id="feature">
-        <form action="'.$this_page.'" method="post">
-            <label for="preferences">Preferences</label>
-            <textarea id="preferences" name="preferences">'.$ini.'</textarea>
-            <button type="submit" id="set_up" name="submit" value="set_up">Update</button></form></div></body></html>'); }
+        <div id="feature">
+            <form action="'.$this_page.'" method="post">
+                <label for="preferences">Preferences</label>
+                <textarea id="preferences" name="preferences">'.$ini.'</textarea>
+                <button type="submit" id="set_up" name="submit" value="set_up">Update</button></form></div></body></html>'); }
 
 
 
 
 
 else if (isset($_POST['submit']) && $_POST['submit'] == 'home') {
-    header("Location: ./");
+    $file = fopen('page.ini', 'w');
+    fwrite($file, 'page = "0"');
+    fclose($file); 
+    header("Location: ./index.php");
 }
 
 
@@ -255,45 +186,27 @@ foreach ($rii as $archive) {
     if (!$archive->isDir() && str_ends_with($archive, '.md')) $archives[] = $archive->getPathname();        
 }
 
-print('<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"> 
-<html>
-<head>
-    <link rel="stylesheet" type="text/css" href="style.css" />
-    <title>'.$blog_name.': '.$blog_tagline.'</title>
-    <script>
-        function scrollToTop(){
-        var timerHandle = setInterval(function() {
-          if (document.body.scrollTop != 0 || document.documentElement.scrollTop != 0)
-          window.scrollBy(0,-50); else clearInterval(timerHandle); },10);
-        }
-    </script>
-</head>
-
-<body>
-    <div id="masthead">
-    <h1><a href="./index.php">'.$blog_name.'</a></h1>
-    <h5>'.$blog_tagline.'</h5>
-    <form action="'.$this_page.'" method="post" enctype="multipart/form-data">
-        <button type="submit" class="new_post" name="submit" value="new_post">New post...</button>
-        <button type="submit" id="preferences" name="submit" value="preferences">Preferences...</button>
-        <button type="submit" id="stylesheet" name="submit" value="stylesheet">Edit stylesheet...</button>
-        <br />
-        <button type="submit" id="home" name="submit" value="home">Home</button>
-        <button type="submit" id="archives" name="submit" value="archives">Archives</button>
-        <button type="submit" id="manage" name="submit" value="manage">Manage</button></form></div>
+include('head.php');
+print('<body>
+    <div id="masthead">');
+include('masthead.php');
+include('manage_menu.php');
+print('</div>
 
     <div id="feature">
-        <h2>Archives</h2>
-        <form action="./manage.php" method="get">');
+        <h2>Archives</h2>');
 
 foreach ($archives as $archive) {
+    $Parsedown = new Parsedown();
     $file = fopen($archive, 'r');
     print('
-            <button type="submit" id="view" name="submit" value="'.$archive.'">'.get_inline_timestamp($archive).': '.fgets($file).'</button>');
+        <form action="'.$this_page.'" method="post"><p>
+            <button type="submit" class="view" name="submit" value="view">'.get_inline_timestamp($archive).$Parsedown->text(fgets($file)).'</button>
+            <input type="hidden" class="archive" name="archive" value="'.$archive.'" /></p></form>');
     fclose($file);
 }
 
-print('</form>');
+
 print('</div>');
 
 include('foot.php'); }
@@ -357,21 +270,10 @@ print('</div>');
     
 print('    <div id="feature">
         <h6>'.$archive.'</h6>
-        <h4>'.$archive_date.'</h4>
-        <form action="'.$this_page.'" method="post" enctype="multipart/form-data">
-            <button type="submit" id="delete" name="submit" value="delete">Delete</button>
-            <button type="submit" id="duplicate" name="submit" value="duplicate">Duplicate</button>
-            <button type="submit" id="restamp" name="submit" value="restamp">Restamp</button>
-            <input type="text" id="new_timestamp" name="new_timestamp" value="'.$archive.'" />
-            <button type="submit" id="adjust" name="submit" value="adjust">Adjust</button>
-            <br />
-            <button type="submit" id="view" name="submit" value="view">View</button>
-            <button type="submit" id="edit" name="submit" value="edit">Edit</button>
-            <input type="file" class="file_to_upload" name="file_to_upload" />
-            <input type="submit" class="upload" name="submit" value="Upload" />
-            <input type="hidden" id="body" name="body" value="'.$body.'" />
-            <input type="hidden" id="archive" name="archive" value="'.$archive.'" /></form>
-        '.$Parsedown->text($body).'</div></body></html>');
+        <h4>'.$archive_date.'</h4>');
+include('manage_post_menu.php');
+print('        '.$Parsedown->text($body).'</div>');
+print('</body></html>');
 }
 
 
@@ -423,34 +325,17 @@ else if (isset($_POST['submit']) && $_POST['submit'] == 'restamp') {
 
 else if (isset($_POST['submit']) && $_POST['submit'] == 'edit') {
     $body = file_get_contents($_POST['archive']);
-print('<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"> 
-<html>
-<head>
-    <link rel="stylesheet" type="text/css" href="style.css" />
-    <title>'.$blog_name.': '.$blog_tagline.'</title>
-    <script>
-        function scrollToTop(){
-        var timerHandle = setInterval(function() {
-          if (document.body.scrollTop != 0 || document.documentElement.scrollTop != 0)
-          window.scrollBy(0,-50); else clearInterval(timerHandle); },10);
-        }
-    </script>
-</head>
-
-<body>
-    <div id="masthead">
-        <h1><a href="./index.php">'.$blog_name.'</a></h1>
-        <h5>'.$blog_tagline.'</h5>
-        <form action="'.$this_page.'" method="post" enctype="multipart/form-data">
-            <button type="submit" class="new_post" name="submit" value="new_post">New post...</button>
-            <button type="submit" id="preferences" name="submit" value="preferences">Preferences...</button>
-            <button type="submit" id="stylesheet" name="submit" value="stylesheet">Edit stylesheet...</button></form></div>');
+include('head.php');
+print('<body>
+    <div id="masthead">');
+include('masthead.php');
+print('</div>');
 
     print('<div id="feature"><form action="'.$this_page.'" method="post">
 <textarea name="body">'.$body.'</textarea>
 <br />
 <button type="submit" id="save" name="submit" value="save">Save</button>
-<input type="hidden" id="archive" name="archive" value="'.$_POST['archive'].'" />
+<input type="hidden" id="archive" name="archive" value="'.$_POST['archive'].'">
 </form></div></body></html>');
 }
 
@@ -483,6 +368,32 @@ else if (isset($_POST['submit']) && $_POST['submit'] == 'Upload') {
 
 
 
+else if (isset($_POST['submit']) && $_POST['submit'] == 'previous') {
+    $page = $page - 1;
+    $file = fopen('page.ini', 'w');
+    fwrite($file, 'page = "'.$page.'"');
+    fclose($file); 
+    header("Location: ./manage.php");
+}
+
+
+
+
+
+
+else if (isset($_POST['submit']) && $_POST['submit'] == 'next') {
+    $page = $page + 1;
+    $file = fopen('page.ini', 'w');
+    fwrite($file, 'page = "'.$page.'"');
+    fclose($file); 
+    header("Location: ./manage.php");
+}
+
+
+
+
+
+
 else {
 // recursive md file search adapted from https://stackoverflow.com/questions/24783862/list-all-the-files-and-folders-in-a-directory-with-php-recursive-function
 $rii = new RecursiveIteratorIterator(new RecursiveDirectoryIterator('blogs'));
@@ -494,37 +405,27 @@ foreach ($rii as $archive) {
 }
 
 if ($ini['latest_first']) $archives = array_reverse($archives);
-$archives = array_slice($archives, 0, $ini['blog_nposts']);
+$printing_archives = array_slice($archives, $page * $blog_nposts, $blog_nposts);
 
 include('head.php');
 print('<body>
-    <div id="masthead">');
+<div id="masthead">');
 include('masthead.php');
 include('manage_menu.php');
-print('     </div>');
+print('</div>');
 
-foreach ($archives as $archive) {
+foreach ($printing_archives as $archive) {
     $body = file_get_contents($archive);
     $Parsedown = new Parsedown();
     $archive_date = get_inline_timestamp($archive);
     
-    print('    <div class="post">
-        <h4>'.$archive_date.'</h4>
-        <form action="'.$this_page.'" method="post" enctype="multipart/form-data">
-            <button type="submit" id="delete" name="submit" value="delete">Delete</button>
-            <button type="submit" id="duplicate" name="submit" value="duplicate">Duplicate</button>
-            <button type="submit" id="restamp" name="submit" value="restamp">Restamp</button>
-            <input type="text" id="new_timestamp" name="new_timestamp" value="'.$archive.'" />
-            <button type="submit" id="adjust" name="submit" value="adjust">Adjust</button>
-            <br />
-            <button type="submit" id="view" name="submit" value="view">View</button>
-            <button type="submit" id="edit" name="submit" value="edit">Edit</button>
-            <input type="file" class="file_to_upload" name="file_to_upload" />
-            <input type="submit" class="upload" name="submit" value="Upload" />
-            <input type="hidden" id="body" name="body" value="'.$body.'" />
-            <input type="hidden" id="archive" name="archive" value="'.$archive.'" /></form>
+    print('
+<div class="post">
+    <h4>'.$archive_date.'</h4>');
+    include('manage_post_menu.php');
             
-'.$Parsedown->text($body).'</div>'); }
-print('<a href="#" class="top" onclick="scrollToTop();return false;">^</a>
-</body></html>'); }
+print(''.$Parsedown->text($body).'</div>'); }
+//print('<a href="#" class="top" onclick="scrollToTop();return false;">^</a>
+//</body></html>'); }
+include('foot.php'); }
 ?>
