@@ -24,7 +24,7 @@ function get_inline_timestamp($ts) {
     } elseif ($count == 3) {
         return date('F j, Y', mktime(0, 0, 0, $ts[1], $ts[2], $ts[0]));
     } elseif ($count == 4) {
-        return date('F j, Y, H\o\'\c\l\o\c\k', mktime($ts[3], 0, 0, $ts[1], $ts[2], $ts[0]));
+        return date('F j, Y, H \o\'\c\l\o\c\k', mktime($ts[3], 0, 0, $ts[1], $ts[2], $ts[0]));
     } elseif ($count == 5) {
         return date('F j, Y, H:i', mktime($ts[3], $ts[4], 0, $ts[1], $ts[2], $ts[0]));
     } elseif ($count == 6) {
