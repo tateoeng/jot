@@ -4,10 +4,23 @@ color: white;
 font-family: Verdana, sans-serif;
 }
 
+form {
+display: inline;
+text-align: center;
+}
+
+textarea {
+width: 95%;
+height: 200px;
+padding: 20px;
+}
 
 div {
 background-color: #181818;
-padding: 5px 5px 15px 5px;
+border: 2px solid #1ecbe1;
+border-radius: 10px;
+margin: 10px;
+padding: 5px;
 }
 
 div#masthead, form, h1, h2, h3, h4, h5, h6 {
@@ -26,9 +39,21 @@ div#masthead h5 {
 padding-bottom: 20px;
 }
 
+div#feature {
+padding: 20px;
+}
+
+div#archives {
+border: 0px solid #000;
+border-radius: 0px;
+margin: 0px;
+padding: 0px;
+text-align: center;
+}
+
 a {
 text-decoration: none;
-color: #1ecbe1;
+color: #E1341E;
 transition-duration: 0.4s;
 }
 
@@ -56,21 +81,8 @@ h1, h2, h3, h4, h5, h6 {
 margin: 0px;
 }
 
-div {
-border: 2px solid #1ecbe1;
-border-radius: 10px;
-margin: 10px;
-padding: 5px;
-}
-
-div#feature {
-padding: 20px;
-}
-
-textarea {
-width: 95%;
-height: 200px;
-padding: 20px;
+h1 a {
+color: #1ecbe1;
 }
 
 button, p button {
@@ -95,28 +107,28 @@ color: black;
 background-color: #1ecbe1;
 }
 
-input.file_to_upload {
+input {
 border-radius: 5px;
+}
+
+input.file_to_upload {
 margin: 2px;
 color: black;
 background-color: #1ecbe1;
 }
 
 input.upload {
-border-radius: 5px;
 margin: 2px;
 padding: 3px 10px;
 border: 1px solid #000;
 }
 
 input.file-upload-button {
-border-radius: 5px;
 }
 
 input.new_timestamp {
 margin: 0px 2px 4px 2px;
 border: 1px solid #1ecbe1;
-border-radius: 5px;
 padding: 2px 5px;
 }
 
@@ -205,7 +217,6 @@ white-space: nowrap;
 font-size: 48px;
 padding: 15px;
 padding-bottom: 0px;
-
 }
 
 li, p {
@@ -213,6 +224,11 @@ width: 62%;
 margin-left: auto;
 margin-right: auto;
 text-align: justify;
+}
+
+form p {
+text-align: center;
+margin: auto;
 }
 
 .post li p {
@@ -234,16 +250,9 @@ margin-bottom: 30px;
 margin-bottom: 10px;
 }
 
-#footer {
-}
-
-form p {
-text-align: center;
-margin: auto;
-}
-
 button.view {
 margin: 6px 3px;
+text-align: center;
 }
 
 #feature button.view h1, #feature button.view h2 {
@@ -254,10 +263,6 @@ padding: 0px;
 
 #feature button.view h1 a, #feature button.view h2 a {
 color: #E1341E;
-}
-
-input iframe {
-visibility: hidden;
 }
 
 hr {

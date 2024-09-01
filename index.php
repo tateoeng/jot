@@ -20,20 +20,22 @@ include('manage_menu.php');
 print('</div>
 
     <div id="feature">
-        <h2>Archives</h2>');
+        <h2>Archives</h2>
+        <div id="archives">');
 
 foreach ($archives as $archive) {
     $Parsedown = new Parsedown();
     $file = fopen($archive, 'r');
     print('
-        <form action="'.$this_page.'" method="post"><p>
-            <button type="submit" class="view" name="submit" value="view">'.get_inline_timestamp($archive).$Parsedown->text(fgets($file)).'</button>
-            <input type="hidden" class="archive" name="archive" value="'.$archive.'" /></p></form>');
+            <form action="'.$this_page.'" method="post">
+                <p style="display: inline;">
+                    <button type="submit" class="view" name="submit" value="view">'.get_inline_timestamp($archive).$Parsedown->text(fgets($file)).'</button>
+                    <input type="hidden" class="archive" name="archive" value="'.$archive.'" /></p></form>');
     fclose($file);
 }
 
 
-print('</div>');
+print('</div></div>');
 
 }
 
