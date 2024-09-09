@@ -69,6 +69,7 @@ function duplicate_the_($archive) {
             fclose($f);
         }
     }
+    return $new_directory.$filename;
 }
 
 
@@ -98,6 +99,7 @@ function adjust_the_($archive, $new_directory) {
             fclose($f);
         }
     }
+    return $new_directory.$filename;
 }
 
 
@@ -275,6 +277,7 @@ print('    <div id="feature">
         <h4>'.$archive_date.'</h4>');
 include('manage_post_menu.php');
 print('        '.$Parsedown->text($body).'</div>');
+include('foot.php');
 print('</body></html>');
 }
 
@@ -285,9 +288,28 @@ print('</body></html>');
 else if (isset($_POST['submit']) && $_POST['submit'] == 'adjust') {
     $archive = $_POST['archive'];
     $nts = $_POST['new_timestamp'];
-    adjust_the_($archive, $nts);
+    $new_archive = adjust_the_($archive, $nts);
     delete_the_($archive);
-    header("Refresh:0");
+    $archive = $new_archive;
+    // $archive = $_POST['archive'];
+    $body = file_get_contents($archive);
+    $Parsedown = new Parsedown();
+    include('head.php');
+    print('
+<body>
+    <div id="masthead">');
+    include('masthead.php');
+    include('manage_menu.php');
+    print('</div>');
+
+    $archive_date = get_inline_timestamp($archive);
+    
+    print('    <div id="feature">
+        <h6>'.$archive.'</h6>
+        <h4>'.$archive_date.'</h4>');
+    include('manage_post_menu.php');
+    print('        '.$Parsedown->text($body).'</div>');
+    print('</body></html>');
 }
 
 
@@ -296,8 +318,27 @@ else if (isset($_POST['submit']) && $_POST['submit'] == 'adjust') {
 else if (isset($_POST['submit']) && $_POST['submit'] == 'duplicate') {
     // get link from previous entry
     $archive = $_POST['archive'];
-    duplicate_the_($archive);
-    header("Refresh:0");
+    $archive = duplicate_the_($archive);
+    // $archive = $_POST['archive'];
+    $body = file_get_contents($archive);
+    $Parsedown = new Parsedown();
+    include('head.php');
+    print('
+<body>
+    <div id="masthead">');
+    include('masthead.php');
+    include('manage_menu.php');
+    print('</div>');
+
+    $archive_date = get_inline_timestamp($archive);
+    
+    print('    <div id="feature">
+        <h6>'.$archive.'</h6>
+        <h4>'.$archive_date.'</h4>');
+    include('manage_post_menu.php');
+    print('        '.$Parsedown->text($body).'</div>');
+    include('foot.php');
+    print('</body></html>');
 }
 
 
@@ -316,9 +357,28 @@ else if (isset($_POST['submit']) && $_POST['submit'] == 'delete') {
 
 else if (isset($_POST['submit']) && $_POST['submit'] == 'restamp') {
     $archive = $_POST['archive'];
-    duplicate_the_($archive);
+    $new_archive = duplicate_the_($archive);
     delete_the_($archive);
-    header("Refresh:0");
+    $archive = $new_archive;
+    // $archive = $_POST['archive'];
+    $body = file_get_contents($archive);
+    $Parsedown = new Parsedown();
+    include('head.php');
+    print('
+<body>
+    <div id="masthead">');
+    include('masthead.php');
+    include('manage_menu.php');
+    print('</div>');
+
+    $archive_date = get_inline_timestamp($archive);
+    
+    print('    <div id="feature">
+        <h6>'.$archive.'</h6>
+        <h4>'.$archive_date.'</h4>');
+    include('manage_post_menu.php');
+    print('        '.$Parsedown->text($body).'</div>');
+    print('</body></html>');
 }
 
 
@@ -349,7 +409,34 @@ else if (isset($_POST['submit']) && $_POST['submit'] == 'save') {
     $file = fopen($_POST['archive'], 'w');
     fwrite($file, $_POST['body']);
     fclose($file);
-    header("Refresh:0");
+    // print('<form id="view" action="'.$this_page.'" method="post">
+    // <input type="hidden" name="archive" value="'.$_POST['archive'].'" />
+    // <input type="hidden" name="submit" value="view" />
+    // <input type="hidden" value="submit" />
+    // </form>
+// <!--<script type="text/javascript">
+// document.getElementById("view").submit();
+// </script>-->');
+   // header("Refresh:0");
+    $archive = $_POST['archive'];
+    $body = file_get_contents($archive);
+    $Parsedown = new Parsedown();
+    include('head.php');
+    print('
+<body>
+    <div id="masthead">');
+    include('masthead.php');
+    include('manage_menu.php');
+    print('</div>');
+
+    $archive_date = get_inline_timestamp($archive);
+    
+    print('    <div id="feature">
+        <h6>'.$archive.'</h6>
+        <h4>'.$archive_date.'</h4>');
+    include('manage_post_menu.php');
+    print('        '.$Parsedown->text($body).'</div>');
+    print('</body></html>');
 }
 
 
@@ -363,7 +450,25 @@ else if (isset($_POST['submit']) && $_POST['submit'] == 'Upload') {
     $target_dir = implode('\\', $target_dir);
     $target_file = $target_dir.'\\'.basename($_FILES["file_to_upload"]["name"]);
     move_uploaded_file($_FILES["file_to_upload"]["tmp_name"], $target_file);
-    header("Refresh:0");
+    $archive = $_POST['archive'];
+    $body = file_get_contents($archive);
+    $Parsedown = new Parsedown();
+    include('head.php');
+    print('
+<body>
+    <div id="masthead">');
+    include('masthead.php');
+    include('manage_menu.php');
+    print('</div>');
+
+    $archive_date = get_inline_timestamp($archive);
+    
+    print('    <div id="feature">
+        <h6>'.$archive.'</h6>
+        <h4>'.$archive_date.'</h4>');
+    include('manage_post_menu.php');
+    print('        '.$Parsedown->text($body).'</div>');
+    print('</body></html>');
 }
 
 

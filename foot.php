@@ -10,6 +10,18 @@ print('
 if (isset($_POST['submit']) && $_POST['submit'] == 'archives') {
     print('<p style="text-align: center;">Entries '.count($archives).' of '.count($archives).'</p>');
 } else {
+    $rii = new RecursiveIteratorIterator(new RecursiveDirectoryIterator('blogs'));
+    $archives = array(); 
+
+    /** @var SplFileInfo $file */
+    foreach ($rii as $archive) {
+        if (!$archive->isDir() && str_ends_with($archive, '.md')) $archives[] = $archive->getPathname();        
+    }
+    
+    if (isset($_POST['submit']) && $_POST['submit'] == 'view') {
+        $blog_nposts = 1;
+    }
+
     if ($blog_nposts != 1) print('<p style="text-align: center;">Entries '.$page * $blog_nposts + 1 .' - '.$page * $blog_nposts + $blog_nposts.' of '.count($archives).'</p>
     ');
     else print('<p style="text-align: center">Entry '.$page * $blog_nposts + 1 .' of '.count($archives).'</p>

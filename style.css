@@ -143,7 +143,7 @@ border: 1px solid #222;
 }
 
 blockquote {
-color: #aaa;
+color: #ccc;
 }
 
 .post {
@@ -223,7 +223,7 @@ li, p {
 width: 62%;
 margin-left: auto;
 margin-right: auto;
-text-align: justify;
+text-align: left;
 }
 
 form p {
@@ -235,7 +235,7 @@ margin: auto;
 width: 100%;
 margin-left: auto;
 margin-right: auto;
-text-align: justify;
+text-align: left;
 }
 
 li li, li li li, li li li li {
@@ -270,4 +270,14 @@ width: 31%;
 color: #333;
 margin-top: 30px;
 margin-bottom: 30px;
+}
+
+iframe {
+display: block;
+text-align: center;
+}
+
+div#player {
+display: block;
+text-align: center;
 }
