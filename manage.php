@@ -277,7 +277,6 @@ print('    <div id="feature">
         <h4>'.$archive_date.'</h4>');
 include('manage_post_menu.php');
 print('        '.$Parsedown->text($body).'</div>');
-include('foot.php');
 print('</body></html>');
 }
 
@@ -337,7 +336,6 @@ else if (isset($_POST['submit']) && $_POST['submit'] == 'duplicate') {
         <h4>'.$archive_date.'</h4>');
     include('manage_post_menu.php');
     print('        '.$Parsedown->text($body).'</div>');
-    include('foot.php');
     print('</body></html>');
 }
 
